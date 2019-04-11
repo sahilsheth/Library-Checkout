@@ -28,5 +28,5 @@ void Book::setPersonPtr(Person * ptr) {
 } 
 
 Person * Book::getPersonPtr() {
-    return personPtrs; // complete
+    return personPtr; // complete
 }
