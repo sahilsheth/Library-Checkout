@@ -17,8 +17,10 @@ void readRentals(vector<Book *> & myBooks, vector<Person *> myCardholders);
 void openCard(vector<Person *> & myCardholders, int &nextID);
 //Book * searchBook(vector<Book *> myBooks, int id);
 void bookCheckingout(vector<Book *> & myBooks, vector<Person *> myCardholders);
+void bookReturn(vector<Book *> & myBooks);
 void update(vector<Book *> myBooks, vector<Person *> myCardholders);
 void availableBooks(vector<Book *> myBooks);
+void viewOutStandingRentals(vector<Book *> myBooks);
 
 
 void printMenu() {
@@ -142,7 +144,7 @@ void readRentals(vector<Book *> & myBooks, vector<Person *> myCardholders) {
             }
         }
     }
-    return;
+    //return;
 
 }
 
@@ -157,6 +159,43 @@ void readRentals(vector<Book *> & myBooks, vector<Person *> myCardholders) {
 
 
 }*/
+
+//FIX DOES NOT WORK
+void viewOutStandingRentals(vector<Book *> myBooks)
+{
+  int countRent = 0;
+  for(int i =0; i < myBooks.size(); i++)
+  {
+    if(myBooks[i]->getPersonPtr())
+    {
+      cout << "Book ID: " << myBooks[i]->getId()<<endl;
+      cout << "Title: " << myBooks[i]->getTitle()<<endl;
+      cout << "Author: " << myBooks[i]->getAuthor()<<endl;
+      cout << "Cardholder: " << myBooks[i]->getPersonPtr()->fullName() <<endl;
+      cout << "Card ID: " << myBooks[i]->getPersonPtr()->getId() << endl;
+      countRent++;
+    }
+  }
+
+  if(countRent = 0)
+  {
+    cout << "No outstanding rentals" << endl;
+  }
+
+
+}
+
+void bookReturn(vector<Book *> & myBooks)
+{
+
+
+
+
+
+}
+
+
+
 
 
 
@@ -286,6 +325,7 @@ int main()
 
             case 4:
                 // View all outstanding rentals
+                viewOutStandingRentals(books);
                 break;
 
             case 5:
