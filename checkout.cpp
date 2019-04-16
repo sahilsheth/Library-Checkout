@@ -158,7 +158,8 @@ void readRentals(vector<Book *> & myBooks, vector<Person *> myCardholders) {
 void bookCheckingout(vector<Book *> & myBooks, vector<Person *> myCardholders)
 {
     Person *peoplePtr = nullptr;
-    int cardId, findCards, findBook, bookId, cardNumber=0;
+    int cardId = 0;
+    int findCards, findBook, bookId, cardNumber=0;
     cout << "Please enter the card ID: ";
     cin >> cardId;
     if(checkCard(myCardholders, cardId))
@@ -170,55 +171,66 @@ void bookCheckingout(vector<Book *> & myBooks, vector<Person *> myCardholders)
             if(cardId == myCardholders[i]->getId())
             {
                    cout << "Cardholder: " << myCardholders[i]->fullName()<<endl;
+                cout << "Please enter the book ID: ";
+                cin >> bookId;
+                if(checkBook(myBooks, bookId))
+                {
+                    
+                    for(int i = 0; i< myBooks.size(); i++)
+                    {
+                        if(bookId == myBooks[i]->getId())
+                        {
+                            cout << "Title: " << myBooks[i]->getTitle()<<endl;
+                            findCards = findCard(myCardholders, cardId);
+                            findBook = findBooks(myBooks, bookId);
+                            peoplePtr = myCardholders[findCards];
+                            myBooks[findBook]->setPersonPtr(peoplePtr);
+                            cout << "Rental completed " << endl;
+                            /*findCards = findCard(myCardholders, cardId);
+                            findBook = findBooks(myBooks, cardId);
+                            peoplePtr = myCardholders[findCards];
+                            myBooks[findBook]->setPersonPtr(peoplePtr);*/
+                        }
+                        
+                        else if(bookId == myBooks[i]->getId() && myBooks[i]->getPersonPtr() != nullptr)
+                        {
+                            cout << "Book already checked out " << endl;
+                            //return; check if return is necessary
+                        }
+                    }
+                    
+                    
+                    
+                   /* for(int j = 0; j<myBooks.size(); j++)
+                    {
+                        if(bookId == myBooks[j]->getId() && myBooks[j]->getPersonPtr() != nullptr)
+                        {
+                            cout << "Book already checked out " << endl;
+                            //return; check if return is necessary
+                        }
+                    }*/
+                }
+                
+                else
+                {
+                    cout << "Book not found " << endl;
+                }
             }
             
         }
     }
     else
     {
-        cout << "Card not found " << endl;
+        cout << "Card ID not found " << endl;
     }
     
-    cout << "Please enter the book ID: ";
-    cin >> bookId;
-    if(checkBook(myBooks, bookId))
-    {
-        
-        for(int i = 0; i< myBooks.size(); i++)
-        {
-            if(bookId == myBooks[i]->getId())
-            {
-                cout << "Title: " << myBooks[i]->getTitle()<<endl;
-                cout << "Rental completed " << endl;
-                findCards = findCard(myCardholders, cardId);
-                findBook = findBooks(myBooks, cardId);
-                peoplePtr = myCardholders[findCards];
-                myBooks[findBook]->setPersonPtr(peoplePtr);
-            }
-        }
-        
-        
-        
-        for(int j = 0; j<myBooks.size(); j++)
-        {
-            if(bookId == myBooks[j]->getId() && myBooks[j]->getPersonPtr() != nullptr)
-            {
-                cout << "Book already checked out " << endl;
-                //return; check if return is necessary
-            }
-        }
-    }
-       
-    else
-    {
-        cout << "Book not found " << endl;
-    }
+    
     
 }
 
 bool checkCard(vector<Person *> &myCardholders, int cardNumbers)
 {
-    int cardCheck = 0;
+    //int cardCheck = 0;
     ;//int cardCheckNum = cardNumbers;
     for(int i = 0; i< myCardholders.size(); i++)
     {
@@ -227,14 +239,15 @@ bool checkCard(vector<Person *> &myCardholders, int cardNumbers)
         {
             return true;
         }
-        else{
+    }
+        /*else{
             cardCheck++;
         }
     }
     if(cardCheck == myCardholders.size())
     {
         return false;
-    }
+    }*/
     
     return false;
 }
@@ -242,14 +255,15 @@ bool checkCard(vector<Person *> &myCardholders, int cardNumbers)
 bool checkBook(vector<Book *> &myBooks, int bookNumbers)
 {
     
-    int bookCheck = 0;
+    //int bookCheck = 0;
     for(int i = 0; i< myBooks.size(); i++)
     {
         if(bookNumbers == myBooks[i]->getId())
         {
             return true;
         }
-        else{
+    }
+        /*else{
             bookCheck++;
         }
     }
@@ -257,7 +271,7 @@ bool checkBook(vector<Book *> &myBooks, int bookNumbers)
     if(bookCheck == myBooks.size())
     {
         return false;
-    }
+    }*/
     
     return false;
     
@@ -314,7 +328,7 @@ void viewOutStandingRentals(vector<Book *> myBooks)
 
 void cardRentals(vector<Book *> &myBooks, vector<Person *> &myCardholders)
 {
-    int cardIds, cardNum1;
+    int cardIds, cardNum1=0;
     int counting;
     cout << "Please enter the card ID: " << endl;
     cin >> cardIds;
@@ -328,7 +342,7 @@ void cardRentals(vector<Book *> &myBooks, vector<Person *> &myCardholders)
         cout << "Cardholder: " << myCardholders[cardNum1]->fullName()<<endl;
         for(int i = 0; i < myBooks.size(); i++)
         {
-            if(cardNum1 == myBooks[i]->getPersonPtr()->getId())
+            if(myBooks[i]->getPersonPtr()->getId() == cardIds)
             {
                 cout << "Book ID: " << myBooks[i]->getId()<<endl;
                 cout << "Title: " << myBooks[i]->getTitle()<<endl;
@@ -366,7 +380,7 @@ void bookReturn(vector<Book *> & myBooks)
         {
             myBooks[bookNums]->setPersonPtr(pPtr);
             cout << "Return completed " <<endl;
-            return;
+            //return;
         }
     }
 }
@@ -485,7 +499,8 @@ void update(vector<Book *> myBooks, vector<Person *> myCardholders)
     {
         if(myBooks[i]->getPersonPtr())
         {
-            writeOut << bookNum << " " << cardNum << endl;
+            //writeOut << bookNum << " " << cardNum << endl;
+            writeOut << myBooks[i]->getId() << " " << myBooks[i]->getPersonPtr()->getId()<<endl;
         }
 
     }
